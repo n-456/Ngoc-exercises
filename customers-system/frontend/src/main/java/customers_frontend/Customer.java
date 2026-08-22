@@ -1,3 +1,5 @@
+package customers_frontend;
+
 import java.util.Objects;
 
 class Customer {
