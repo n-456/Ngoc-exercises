@@ -1,6 +1,12 @@
 package customers_frontend;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.util.List;
 
 public class CustomerController {
 
@@ -12,28 +18,51 @@ public class CustomerController {
         view.showView();
     }
 
-    public CustomerController() {
+    public CustomerController() throws Exception {
         this.view = new CustomerView();
         this.api = new CustomerApi();
 
         initController();
+        String jsonResponse = api.getCustomers();
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Customer>>(){}.getType();
+        List<Customer> customers = gson.fromJson(jsonResponse, listType);
+        view.tableModel.setRowCount(0);
+        for (Customer c : customers) {
+            Object[] row = {c.getName(), c.getPhone(), c.getEmail()};
+            view.tableModel.addRow(row);
+        }
     }
 
     private void initController() {
-
-        System.out.println("initController");
-        view.btnAdd.addActionListener(e -> {System.out.println("ADD CLICKED"); addCustomer();});
-        view.btnEdit.addActionListener(e -> editCustomer());
-        view.btnDelete.addActionListener(e -> deleteCustomer());
+        view.btnAdd.addActionListener(e -> {System.out.println("ADD CLICKED");
+            try {
+                addCustomer();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        view.btnEdit.addActionListener(e -> {
+            try {
+                editCustomer();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        view.btnDelete.addActionListener(e -> {
+            try {
+                deleteCustomer();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
-    private void addCustomer() {
+    private void addCustomer() throws IOException, InterruptedException {
         if (!view.validateInput()) {
-            System.out.print("odnwlewg???");
             return;
         }
 
-        System.out.print("odnwlewg");
         String name = view.txtName.getText().trim();
         String phone = view.txtPhone.getText().trim();
         String email = view.txtEmail.getText().trim();
@@ -44,10 +73,10 @@ public class CustomerController {
         view.clearForm();
         JOptionPane.showMessageDialog(view, "Thêm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-        // api.createCustomer(...)
+        api.createCustomer(name,phone,email);
     }
 
-    private void editCustomer() {
+    private void editCustomer() throws IOException, InterruptedException {
         int selectedRow = view.table.getSelectedRow();
 
         if (selectedRow < 0) {
@@ -59,6 +88,7 @@ public class CustomerController {
             return;
         }
 
+        int id = view.table.getSelectedRow()+1;
         String name = view.txtName.getText().trim();
         String phone = view.txtPhone.getText().trim();
         String email = view.txtEmail.getText().trim();
@@ -72,10 +102,10 @@ public class CustomerController {
 
         JOptionPane.showMessageDialog(view, "Sửa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-        // api.updateCustomer(...)
+        api.updateCustomer(id,name,phone,email);
     }
 
-    private void deleteCustomer() {
+    private void deleteCustomer() throws IOException, InterruptedException {
         int selectedRow = view.table.getSelectedRow();
 
         if (selectedRow < 0) {
@@ -83,12 +113,13 @@ public class CustomerController {
             return;
         }
 
+        int id = view.table.getSelectedRow()+1;
         String name = view.tableModel.getValueAt(selectedRow, 0).toString();
         view.tableModel.removeRow(selectedRow);
 
         view.clearForm();
         JOptionPane.showMessageDialog(view, "Xoá thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-        // api.deleteCustomer(...)
+        api.deleteCustomer(id);
     }
 }

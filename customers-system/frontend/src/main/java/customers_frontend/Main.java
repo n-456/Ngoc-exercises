@@ -8,12 +8,11 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             CustomerApi api = new CustomerApi();
             try {
-                api.getCustomer();
+                CustomerController controller = new CustomerController();
+                controller.show();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            CustomerController controller = new CustomerController();
-            controller.show();
         });
     }
 }

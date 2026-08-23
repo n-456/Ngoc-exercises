@@ -18,17 +18,19 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     Customer getAllCustomer(@PathVariable Long id) {
-        return service.getById(id);
+        int i = Math.toIntExact(id);
+        return ConnectDB.getCustomer(i);
     }
 
     @GetMapping
     List<Customer> getCustomer() {
-        return service.getAll();
+        return ConnectDB.getAllCustomers();
     }
 
     @PostMapping
     public ResponseEntity<Customer> createUser (@RequestBody Customer request) {
 
+        ConnectDB.insertCustomer(request.getName(),request.getPhone(),request.getEmail());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(service.create(request));
@@ -37,14 +39,16 @@ public class CustomerController {
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateUser(@PathVariable Long id, @RequestBody Customer request) {
 
+        int i = Math.toIntExact(id);
         return ResponseEntity.ok(
-                service.update(id, request)
+                ConnectDB.updateCustomer(i,request.getName(),request.getPhone(),request.getEmail())
         );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser (@PathVariable Long id) {
-        service.delete(id);
+        int i = Math.toIntExact(id);
+        ConnectDB.deleteCustomer(i);
         return ResponseEntity.noContent().build();
     }
 }

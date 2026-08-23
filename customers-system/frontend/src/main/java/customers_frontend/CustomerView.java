@@ -25,7 +25,7 @@ public class CustomerView extends JFrame {
         setLayout(new BorderLayout(15, 15));
 
 
-        // 1. FORM BÊN TRÁI
+        // FORM BÊN TRÁI
         JPanel panelForm = new JPanel(new GridBagLayout());
         panelForm.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -70,7 +70,7 @@ public class CustomerView extends JFrame {
         add(panelForm, BorderLayout.WEST);
 
 
-        // 2. TABLE
+        // TABLE
         String[] columnNames = {"Name", "Phone", "Email"};
 
         tableModel = new DefaultTableModel(columnNames, 0) {
@@ -88,7 +88,7 @@ public class CustomerView extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
 
-        // 3. BUTTONS
+        // BUTTONS
         JPanel panelBottom = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 15, 5)
         );
@@ -110,7 +110,7 @@ public class CustomerView extends JFrame {
         btnDelete.setEnabled(false);
 
 
-        // 4. CLICK VÀO TABLE
+        // CLICK VÀO TABLE
         table.getSelectionModel().addListSelectionListener(e -> {
             int selectedRow = table.getSelectedRow();
 
@@ -128,66 +128,7 @@ public class CustomerView extends JFrame {
             }
         });
 
-        // 5. ADD
-//        btnAdd.addActionListener(e -> {
-//            if (!validateInput()) {
-//                return;
-//            }
-//            String name = txtName.getText().trim();
-//            String phone = txtPhone.getText().trim();
-//            String email = txtEmail.getText().trim();
-//
-//            Object[] rowData = {name, phone, email};
-//            tableModel.addRow(rowData);
-//
-//            clearForm();
-//            JOptionPane.showMessageDialog(this, "Thêm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
-//        });
-
-        // 6. EDIT
-//        btnEdit.addActionListener(e -> {
-//            int selectedRow = table.getSelectedRow();
-//
-//            if (selectedRow < 0) {
-//                JOptionPane.showMessageDialog(this, "Hãy chọn 1 khách hàng!", "Warning", JOptionPane.WARNING_MESSAGE);
-//                return;
-//            }
-//
-//            if (!validateInput()) {
-//                return;
-//            }
-//
-//            String name = txtName.getText().trim();
-//            String phone = txtPhone.getText().trim();
-//            String email = txtEmail.getText().trim();
-//
-//            // Cập nhật dữ liệu trong table
-//            tableModel.setValueAt(name, selectedRow, 0);
-//            tableModel.setValueAt(phone, selectedRow, 1);
-//            tableModel.setValueAt(email, selectedRow, 2);
-//
-//            clearForm();
-//
-//            JOptionPane.showMessageDialog(this, "Sửa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
-//        });
-
-
-        // 7. DELETE
-//        btnDelete.addActionListener(e -> {
-//            int selectedRow = table.getSelectedRow();
-//
-//            if (selectedRow < 0) {
-//                JOptionPane.showMessageDialog(this, "Chọn 1 khách hàng!", "Warning", JOptionPane.WARNING_MESSAGE);
-//                return;
-//            }
-//
-//            String name = tableModel.getValueAt(selectedRow, 0).toString();
-//            tableModel.removeRow(selectedRow);
-//
-//            clearForm();
-//            JOptionPane.showMessageDialog(this, "Xoá thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
-//        });
-       // 8. CLEAR
+       // CLEAR
         btnClear.addActionListener(e -> {
             clearForm();
         });
