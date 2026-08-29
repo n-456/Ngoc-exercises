@@ -1,10 +1,12 @@
-package customers_backend;
+package customers_backend.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-class Customer {
-
+public class Customer {
+    private int id;
     private String name, phone, email;
+    private LocalDateTime createdAt;
 
     Customer(){}
 
@@ -14,6 +16,15 @@ class Customer {
         this.email = email;
     }
 
+    public Customer(int id, String name, String phone, String email, LocalDateTime createdAt) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+
+    /// //
     public Customer(Customer customer) {
         this.name = customer.name;
         this.phone = customer.phone;
@@ -30,6 +41,14 @@ class Customer {
 
     public String getEmail() {
         return email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override
